@@ -4,12 +4,13 @@
 
 ## Navigation & file management
 
-| Shortcut    | action          | usefulness                                   |
-| ----------- | --------------- | -------------------------------------------- |
-| cmd P       | Quick open      | type and open a filename                     |
-| cmd shift p | Command pallete | every vscode feature                         |
-| cmd b       | Toggle sidebar  |                                              |
-| control g   | Go to line      | type the line and jump directly to that line |
+| Shortcut                          | action             | usefulness                                   |
+| --------------------------------- | ------------------ | -------------------------------------------- |
+| cmd P                             | Quick open         | type and open a filename                     |
+| cmd shift p                       | Command pallete    | every vscode feature                         |
+| cmd b                             | Toggle sidebar     |                                              |
+| control g                         | Go to line         | type the line and jump directly to that line |
+| cmd option left/right [important] | move between files |                                              |
 
 ## Editing & selection
 
@@ -20,4 +21,44 @@
 | shift option up/down [important] | copy line up/down           | instantly duplicate current line                   |
 | cmd shift k                      | delete line                 | removes line without highlighting it               |
 | cmd d                            | add selection to next match | select the next occurence of word for bulk editing |
-| cmd option up/down               | insert cursor               | add cursors above/below for multi-line typing      |
+| cmd option up/down [important]   | insert cursor               | add cursors above/below for multi-line typing      |
+| option shift a [important]       | add a comment block         | for multi-line comments                            |
+
+## Code intelligence & refactoring
+
+| Shortcut       | action                      | usefulness                                                            |
+| -------------- | --------------------------- | --------------------------------------------------------------------- |
+| f2             | rename symbol [important]   | rename a variable project-wide, safely. It renames everywhere!        |
+| f12            | go to definition            | jump to where a function or variable was first created                |
+| option f12     | peek definition [important] | see the code of a function in a small pop-up window + where it's used |
+| shift option f | format doc                  | auto-fix all indentation and messy spacing                            |
+| cmd .          | quick fix                   |                                                                       |
+
+## UI and integrated terminal
+
+| Shortcut                 | action              | usefulness                               |
+| ------------------------ | ------------------- | ---------------------------------------- |
+| ctrl ` (backtick)        | toggle terminal     | show/hide built-in cli                   |
+| cmd j                    | toggle bottom panel |                                          |
+| cmd 0 (zero) [important] | focus sidebar       | move keyboard focus to the file explorer |
+| cmd 1/2/3 [important]    | switch editor group | jump/select between the split screens    |
+
+## Useful `cmd k` chords
+
+| Shortcut                                  | action              | usefulness                                  |
+| ----------------------------------------- | ------------------- | ------------------------------------------- |
+| cmd k, cmd s                              | keyboard shortcuts  | search, edit, or create shortcuts           |
+| cmd k, v                                  | markdown preview    |                                             |
+| cmd k, z                                  | zen mode            | distraction-free, full-screen coding view   |
+| cmd k, w                                  | close all tabs      |                                             |
+| cmd k, control cmd left/right [important] | move editor group   | moves entire window/split to the left/right |
+| cmd k, cmd o                              | fold all            |                                             |
+| cmd k, cmd j                              | unfold all          |                                             |
+| cmd k, cmd c                              | comments all line   |                                             |
+| cmd k, cmd u                              | remove line comment |                                             |
+| cmd k, enter                              | keep tab open       |                                             |
+| cmd k, shift enter                        | pin tab             |                                             |
+
+## to learn
+
+- what about cmd k, c?
