@@ -4,13 +4,20 @@
 
 ## Navigation & file management
 
-| Shortcut                          | action             | usefulness                                   |
-| --------------------------------- | ------------------ | -------------------------------------------- |
-| cmd P                             | Quick open         | type and open a filename                     |
-| cmd shift p                       | Command pallete    | every vscode feature                         |
-| cmd b                             | Toggle sidebar     |                                              |
-| control g                         | Go to line         | type the line and jump directly to that line |
-| cmd option left/right [important] | move between files |                                              |
+| Shortcut                            | action                  | usefulness                                                          |
+| ----------------------------------- | ----------------------- | ------------------------------------------------------------------- |
+| cmd p                               | Quick open              | type and open a filename                                            |
+| cmd shift p                         | Command pallete         | every vscode feature                                                |
+| cmd b                               | Toggle sidebar          |                                                                     |
+| cmd g                               | go to repo              |                                                                     |
+| control g                           | Go to line              | type the line and jump directly to that line                        |
+| cmd option left/right [important]   | move between files      |                                                                     |
+| control shift e [custom]            | open file explorer      |                                                                     |
+| control shift f [custom]            | open search             |                                                                     |
+| control shift g [important]         | open source control     |                                                                     |
+| cmd \                               | split view              |                                                                     |
+| cmd shift O (o, letter) [important] | go to symbol            | type a function/variable name to jump to it inside the current file |
+| cmd t [important]                   | go to symbol in project | jump to any function or class name anywhere in the entire project   |
 
 ## Editing & selection
 
