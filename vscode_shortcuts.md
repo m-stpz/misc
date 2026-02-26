@@ -4,32 +4,36 @@
 
 ## Navigation & file management
 
-| Shortcut                            | action                  | usefulness                                                          |
-| ----------------------------------- | ----------------------- | ------------------------------------------------------------------- |
-| cmd p                               | Quick open              | type and open a filename                                            |
-| cmd shift p                         | Command pallete         | every vscode feature                                                |
-| cmd b                               | Toggle sidebar          |                                                                     |
-| cmd g                               | go to repo              |                                                                     |
-| control g                           | Go to line              | type the line and jump directly to that line                        |
-| cmd option left/right [important]   | move between files      |                                                                     |
-| control shift e [custom]            | open file explorer      |                                                                     |
-| control shift f [custom]            | open search             |                                                                     |
-| control shift g [important]         | open source control     |                                                                     |
-| cmd \                               | split view              |                                                                     |
-| cmd shift O (o, letter) [important] | go to symbol            | type a function/variable name to jump to it inside the current file |
-| cmd t [important]                   | go to symbol in project | jump to any function or class name anywhere in the entire project   |
+| Shortcut                            | action                            | usefulness                                                          |
+| ----------------------------------- | --------------------------------- | ------------------------------------------------------------------- |
+| cmd p                               | Quick open                        | type and open a filename                                            |
+| cmd shift p                         | Command pallete                   | every vscode feature                                                |
+| cmd b                               | Toggle sidebar                    |                                                                     |
+| cmd alt b                           | toggle right sidebar              | useful for claude code, for example                                 |
+| cmd g                               | go to repo                        |                                                                     |
+| control g                           | Go to line                        | type the line and jump directly to that line                        |
+| cmd option left/right [important]   | move between files                |                                                                     |
+| control shift e [custom]            | open file explorer                |                                                                     |
+| control shift f [custom]            | open search                       |                                                                     |
+| control shift g [important]         | open source control               |                                                                     |
+| cmd \                               | split view                        |                                                                     |
+| cmd control left/right              | moves current tab to another view | similar to cmd \, but more practical                                |
+| cmd shift O (o, letter) [important] | go to symbol                      | type a function/variable name to jump to it inside the current file |
+| cmd t [important]                   | go to symbol in project           | jump to any function or class name anywhere in the entire project   |
 
 ## Editing & selection
 
-| Shortcut                         | action                      | usefulness                                         |
-| -------------------------------- | --------------------------- | -------------------------------------------------- |
-| cmd /                            | toggle line comment         |                                                    |
-| option up/down                   | move line up/down           | drag a line without copying or pasting             |
-| shift option up/down [important] | copy line up/down           | instantly duplicate current line                   |
-| cmd shift k                      | delete line                 | removes line without highlighting it               |
-| cmd d                            | add selection to next match | select the next occurence of word for bulk editing |
-| cmd option up/down [important]   | insert cursor               | add cursors above/below for multi-line typing      |
-| option shift a [important]       | add a comment block         | for multi-line comments                            |
+| Shortcut                                  | action                      | usefulness                                           |
+| ----------------------------------------- | --------------------------- | ---------------------------------------------------- |
+| cmd /                                     | toggle line comment         |                                                      |
+| option up/down                            | move line up/down           | drag a line without copying or pasting               |
+| shift option up/down [important]          | copy line up/down           | instantly duplicate current line                     |
+| cmd shift k                               | delete line                 | removes line without highlighting it                 |
+| cmd d                                     | add selection to next match | select the next occurence of word for bulk editing   |
+| cmd option up/down [important]            | insert cursor               | add cursors above/below for multi-line typing        |
+| option shift a [important]                | add a comment block         | for multi-line comments                              |
+| cmd shift l                               | select all occurrences      |                                                      |
+| control shift cmd left/ right [important] | smart select                | expands or shrinks selection based on code structure |
 
 ## Code intelligence & refactoring
 
@@ -66,6 +70,19 @@
 | cmd k, enter                              | keep tab open       |                                             |
 | cmd k, shift enter                        | pin tab             |                                             |
 
-## to learn
+## Editor management
 
-- what about cmd k, c?
+| Shortcut     | action               | usefulness                                   |
+| ------------ | -------------------- | -------------------------------------------- |
+| cmd option t | close others         | closes every tab, except current             |
+| cmd shift t  | reopen closed editor | the undo for closed tabs. It reopens them    |
+| control -    | go back              | takes your cursor to where it was previously |
+
+## Search and replace
+
+| Shortcut     | action                           | usefulness                           |
+| ------------ | -------------------------------- | ------------------------------------ |
+| cmd f        | find current file                |                                      |
+| cmd option f | replace text within current file |                                      |
+| cmd shift f  | global search                    | searches texts across entire project |
+| cmd shift h  | global replace                   | replaces texts across entire project |
