@@ -2,26 +2,36 @@
 
 - CMD + C / V / X: Performs the operation, even if the items isn't selected. It'll perform it on the line
 
+## Opening files
+
+- Control shift e: goes to the file explorer [custom]
+
+| Shortcut      | action                            | usefulness                  |
+| ------------- | --------------------------------- | --------------------------- |
+| cmd down      | open file                         | standard 'mac' open command |
+| spacebar      | opens file (preview)              | italicized title            |
+| control enter | opens to the side / another group |                             |
+
 ## Navigation & file management
 
-| Shortcut                            | action                                  | usefulness                                                          |
-| ----------------------------------- | --------------------------------------- | ------------------------------------------------------------------- |
-| cmd p                               | Quick open                              | type and open a filename                                            |
-| cmd shift p                         | Command pallete                         | every vscode feature                                                |
-| cmd b                               | Toggle sidebar                          |                                                                     |
-| cmd alt b                           | toggle right sidebar                    | useful for claude code, for example                                 |
-| cmd g                               | go to repo                              |                                                                     |
-| control g                           | Go to line                              | type the line and jump directly to that line                        |
-| cmd option left/right [important]   | move between files                      |                                                                     |
-| control shift e [custom]            | open file explorer                      |                                                                     |
-| control shift f [custom]            | open search                             |                                                                     |
-| control shift g [important]         | open source control                     |                                                                     |
-| cmd \                               | split view                              |                                                                     |
-| cmd control left/right              | moves current tab to another view       | similar to cmd \, but more practical                                |
-| cmd shift O (o, letter) [important] | go to symbol                            | type a function/variable name to jump to it inside the current file |
-| cmd t [important]                   | go to symbol in project                 | jump to any function or class name anywhere in the entire project   |
-| control tab                         | opens the tab manager within that group |                                                                     |
-| control shift tab                   | same as above, but in reverse order     |                                                                     |
+| Shortcut                            | action                                     | usefulness                                                          |
+| ----------------------------------- | ------------------------------------------ | ------------------------------------------------------------------- |
+| cmd p                               | Quick open                                 | type and open a filename                                            |
+| cmd shift p                         | Command pallete                            | every vscode feature                                                |
+| cmd b                               | Toggle sidebar                             |                                                                     |
+| cmd alt b                           | toggle right sidebar                       | useful for claude code, for example                                 |
+| cmd g                               | go to repo                                 |                                                                     |
+| control g                           | Go to line                                 | type the line and jump directly to that line                        |
+| cmd option left/right [important]   | move between files / and between terminals |                                                                     |
+| control shift e [custom]            | open file explorer                         |                                                                     |
+| control shift f [custom]            | open search                                |                                                                     |
+| control shift g [important]         | open source control                        |                                                                     |
+| cmd \                               | split view                                 |                                                                     |
+| cmd control left/right              | moves current tab to another view          | similar to cmd \, but more practical                                |
+| cmd shift O (o, letter) [important] | go to symbol                               | type a function/variable name to jump to it inside the current file |
+| cmd t [important]                   | go to symbol in project                    | jump to any function or class name anywhere in the entire project   |
+| control tab                         | opens the tab manager within that group    |                                                                     |
+| control shift tab                   | same as above, but in reverse order        |                                                                     |
 
 ## Editing & selection
 
@@ -57,12 +67,14 @@
 
 ## UI and integrated terminal
 
-| Shortcut                 | action              | usefulness                               |
-| ------------------------ | ------------------- | ---------------------------------------- |
-| ctrl ` (backtick)        | toggle terminal     | show/hide built-in cli                   |
-| cmd j                    | toggle bottom panel |                                          |
-| cmd 0 (zero) [important] | focus sidebar       | move keyboard focus to the file explorer |
-| cmd 1/2/3 [important]    | switch editor group | jump/select between the split screens    |
+| Shortcut                    | action                  | usefulness                                          |
+| --------------------------- | ----------------------- | --------------------------------------------------- |
+| control ` (backtick)        | toggle terminal         | show/hide built-in cli                              |
+| control shift ` [important] | creates new terminal    |
+| cmd j                       | toggle bottom panel     |                                                     |
+| cmd 0 (zero) [important]    | focus sidebar           | move keyboard focus to the file explorer            |
+| cmd 1/2/3 [important]       | switch editor group     | jump/select between the split screens               |
+| control 1/2/3 [important]   | switch tab within group | if group has different tabs, navigates between them |
 
 ## Useful `cmd k` chords
 
@@ -79,6 +91,7 @@
 | cmd k, cmd u                              | remove line comment |                                             |
 | cmd k, enter                              | keep tab open       |                                             |
 | cmd k, shift enter                        | pin tab             |                                             |
+| cmd k, e [important]                      | open editor view    | shows the groups                            |
 
 ## Editor management
 
@@ -86,6 +99,7 @@
 | ------------ | -------------------- | -------------------------------------------- |
 | cmd option t | close others         | closes every tab, except current             |
 | cmd shift t  | reopen closed editor | the undo for closed tabs. It reopens them    |
+| cmd w        | closes current tab   |                                              |
 | control -    | go back              | takes your cursor to where it was previously |
 
 ## Search and replace
