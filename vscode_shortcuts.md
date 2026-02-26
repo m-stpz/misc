@@ -4,36 +4,46 @@
 
 ## Navigation & file management
 
-| Shortcut                            | action                            | usefulness                                                          |
-| ----------------------------------- | --------------------------------- | ------------------------------------------------------------------- |
-| cmd p                               | Quick open                        | type and open a filename                                            |
-| cmd shift p                         | Command pallete                   | every vscode feature                                                |
-| cmd b                               | Toggle sidebar                    |                                                                     |
-| cmd alt b                           | toggle right sidebar              | useful for claude code, for example                                 |
-| cmd g                               | go to repo                        |                                                                     |
-| control g                           | Go to line                        | type the line and jump directly to that line                        |
-| cmd option left/right [important]   | move between files                |                                                                     |
-| control shift e [custom]            | open file explorer                |                                                                     |
-| control shift f [custom]            | open search                       |                                                                     |
-| control shift g [important]         | open source control               |                                                                     |
-| cmd \                               | split view                        |                                                                     |
-| cmd control left/right              | moves current tab to another view | similar to cmd \, but more practical                                |
-| cmd shift O (o, letter) [important] | go to symbol                      | type a function/variable name to jump to it inside the current file |
-| cmd t [important]                   | go to symbol in project           | jump to any function or class name anywhere in the entire project   |
+| Shortcut                            | action                                  | usefulness                                                          |
+| ----------------------------------- | --------------------------------------- | ------------------------------------------------------------------- |
+| cmd p                               | Quick open                              | type and open a filename                                            |
+| cmd shift p                         | Command pallete                         | every vscode feature                                                |
+| cmd b                               | Toggle sidebar                          |                                                                     |
+| cmd alt b                           | toggle right sidebar                    | useful for claude code, for example                                 |
+| cmd g                               | go to repo                              |                                                                     |
+| control g                           | Go to line                              | type the line and jump directly to that line                        |
+| cmd option left/right [important]   | move between files                      |                                                                     |
+| control shift e [custom]            | open file explorer                      |                                                                     |
+| control shift f [custom]            | open search                             |                                                                     |
+| control shift g [important]         | open source control                     |                                                                     |
+| cmd \                               | split view                              |                                                                     |
+| cmd control left/right              | moves current tab to another view       | similar to cmd \, but more practical                                |
+| cmd shift O (o, letter) [important] | go to symbol                            | type a function/variable name to jump to it inside the current file |
+| cmd t [important]                   | go to symbol in project                 | jump to any function or class name anywhere in the entire project   |
+| control tab                         | opens the tab manager within that group |                                                                     |
+| control shift tab                   | same as above, but in reverse order     |                                                                     |
 
 ## Editing & selection
 
-| Shortcut                                  | action                      | usefulness                                           |
-| ----------------------------------------- | --------------------------- | ---------------------------------------------------- |
-| cmd /                                     | toggle line comment         |                                                      |
-| option up/down                            | move line up/down           | drag a line without copying or pasting               |
-| shift option up/down [important]          | copy line up/down           | instantly duplicate current line                     |
-| cmd shift k                               | delete line                 | removes line without highlighting it                 |
-| cmd d                                     | add selection to next match | select the next occurence of word for bulk editing   |
-| cmd option up/down [important]            | insert cursor               | add cursors above/below for multi-line typing        |
-| option shift a [important]                | add a comment block         | for multi-line comments                              |
-| cmd shift l                               | select all occurrences      |                                                      |
-| control shift cmd left/ right [important] | smart select                | expands or shrinks selection based on code structure |
+| Shortcut                                  | action                               | usefulness                                           |
+| ----------------------------------------- | ------------------------------------ | ---------------------------------------------------- |
+| cmd /                                     | toggle line comment                  |                                                      |
+| option up/down [important]                | move line up/down                    | drag a line without copying or pasting               |
+| shift option up/down [important]          | copy line up/down                    | instantly duplicate current line                     |
+| cmd shift k                               | delete line                          | removes line without highlighting it                 |
+| cmd d                                     | add selection to next match          | select the next occurence of word for bulk editing   |
+| cmd option up/down [important]            | insert cursor                        | add cursors above/below for multi-line typing        |
+| option shift a [important]                | add a comment block                  | for multi-line comments                              |
+| shift alt a [important]                   | commenting out just selected portion |                                                      |
+| cmd shift l                               | select all occurrences               |                                                      |
+| control shift cmd left/ right [important] | smart select                         | expands or shrinks selection based on code structure |
+
+## Structure & indentation
+
+| Shortcut                     | action               | usefulness                    |
+| ---------------------------- | -------------------- | ----------------------------- |
+| cmd [ / ]                    | indentation          |                               |
+| cmd option [ / ] [important] | toggle current block | expands/shrinks current block |
 
 ## Code intelligence & refactoring
 
