@@ -121,3 +121,9 @@
 | cmd shift h  | global replace                   | replaces texts across entire project |
 
 ## Debugging
+
+| Shortcut | action           | usefulness |
+| -------- | ---------------- | ---------- |
+| f5       | starts debugging |            |
+| shift f5 | stops debugging  |            |
+| f9       | add break point  |            |
