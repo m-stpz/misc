@@ -35,18 +35,25 @@
 
 ## Editing & selection
 
-| Shortcut                                  | action                               | usefulness                                           |
-| ----------------------------------------- | ------------------------------------ | ---------------------------------------------------- |
-| cmd /                                     | toggle line comment                  |                                                      |
-| option up/down [important]                | move line up/down                    | drag a line without copying or pasting               |
-| shift option up/down [important]          | copy line up/down                    | instantly duplicate current line                     |
-| cmd shift k                               | delete line                          | removes line without highlighting it                 |
-| cmd d                                     | add selection to next match          | select the next occurence of word for bulk editing   |
-| cmd option up/down [important]            | insert cursor                        | add cursors above/below for multi-line typing        |
-| option shift a [important]                | add a comment block                  | for multi-line comments                              |
-| shift alt a [important]                   | commenting out just selected portion |                                                      |
-| cmd shift l                               | select all occurrences               |                                                      |
-| control shift cmd left/ right [important] | smart select                         | expands or shrinks selection based on code structure |
+| Shortcut                                  | action                                  | usefulness                                           |
+| ----------------------------------------- | --------------------------------------- | ---------------------------------------------------- |
+| cmd /                                     | toggle line comment                     |                                                      |
+| option up/down [important]                | move line up/down                       | drag a line without copying or pasting               |
+| shift option up/down [important]          | copy line up/down                       | instantly duplicate current line                     |
+| cmd shift k                               | delete line                             | removes line without highlighting it                 |
+| cmd d                                     | add selection to next match             | select the next occurence of word for bulk editing   |
+| cmd option up/down [important]            | insert cursor                           | add cursors above/below for multi-line typing        |
+| option shift a [important]                | add a comment block                     | for multi-line comments                              |
+| shift alt a [important]                   | commenting out just selected portion    |                                                      |
+| cmd shift l                               | select all occurrences                  |                                                      |
+| control shift left/right [important]      | block select                            | great to increase/decrease scope                     |
+| control shift cmd left/ right [important] | smart select                            | expands or shrinks selection based on code structure |
+| shift left/right                          | selecting the text                      |                                                      |
+| option left/right [important]             | moves to the end or beginning of a word |                                                      |
+| option shift left/right [important]       | moves, while selecting multiple words   |
+| alt click                                 | adding multiple cursors                 |                                                      |
+| cmd u                                     | undo button for your cursor             |                                                      |
+| cmd option up/down                        | adds multiple cursors above/below       |                                                      |
 
 ## Structure & indentation
 
@@ -57,13 +64,15 @@
 
 ## Code intelligence & refactoring
 
-| Shortcut       | action                      | usefulness                                                            |
-| -------------- | --------------------------- | --------------------------------------------------------------------- |
-| f2             | rename symbol [important]   | rename a variable project-wide, safely. It renames everywhere!        |
-| f12            | go to definition            | jump to where a function or variable was first created                |
-| option f12     | peek definition [important] | see the code of a function in a small pop-up window + where it's used |
-| shift option f | format doc                  | auto-fix all indentation and messy spacing                            |
-| cmd .          | quick fix                   |                                                                       |
+| Shortcut         | action                          | usefulness                                                            |
+| ---------------- | ------------------------------- | --------------------------------------------------------------------- |
+| f2               | rename symbol [important]       | rename a variable project-wide, safely. It renames everywhere!        |
+| f12              | go to definition                | jump to where a function or variable was first created                |
+| shift f12        | go to references [important]    | shows every place in the project that calls/uses that symbol          |
+| shift option f12 | find all references [important] | shows on the sidebar everywhere that code is used                     |
+| option f12       | peek definition [important]     | see the code of a function in a small pop-up window + where it's used |
+| shift option f   | format doc                      | auto-fix all indentation and messy spacing                            |
+| cmd .            | quick fix                       |                                                                       |
 
 ## UI and integrated terminal
 
@@ -110,3 +119,5 @@
 | cmd option f | replace text within current file |                                      |
 | cmd shift f  | global search                    | searches texts across entire project |
 | cmd shift h  | global replace                   | replaces texts across entire project |
+
+## Debugging
