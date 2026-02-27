@@ -53,3 +53,20 @@
 ### Critical technical hurdles
 
 #### Cold starts
+
+- Since functions spin down to zero when not in use, the first request after a period of inactivity might take a few seconds to start
+- Mitigate this by setting `minInstances` count
+  - This ensures at least one instance is always 'warm' and ready
+
+#### Idempotency
+
+- Cloud functions are guaranteed to execute at least once, but ocasionally they might execute twice, due to network retries
+- Your code must be **idempotent**, meaning, if the same function runs twice with the same data, it shouldn't cause bugs
+
+### Development workflow
+
+- Firebase cli: manage everything via command line
+- Emulator suite: don't test in production
+  - Firebase provides a local emulator that mimics the cloud environment on your laptop
+- Logging: use `logger.log()` or `logger.error()`
+  - These logs are piped directly to gcp, which your primary debugging tool
