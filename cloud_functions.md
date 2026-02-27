@@ -70,3 +70,26 @@
   - Firebase provides a local emulator that mimics the cloud environment on your laptop
 - Logging: use `logger.log()` or `logger.error()`
   - These logs are piped directly to gcp, which your primary debugging tool
+
+## Example
+
+`basic_example`:
+
+- function
+- store
+- component
+
+Data flow:
+
+- 1. user clicks button: component `increment` is triggered`
+- 2. request sent: angular firebase sdk sends a secure HTTPs request to google's servers
+- 3. function executes: cloud function spins up, executes, and sends back json response
+- 4. stores updates: component receives the response and updates the signal store
+- 5. UI reacts: angular watches the signal, and once it's updated by the store, the value in the html is updated
+
+## To learn
+
+- local emulator
+- having multiple functions
+- shared interfaces
+- any other important concept
