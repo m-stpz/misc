@@ -35,6 +35,10 @@
 
 ##### 1. HTTPS Callable: Direct client-to-backend
 
+- Responds to an user action:
+  - button click
+  - called by the client
+
 ```ts
 export const getWeather = onCall(async (request) => {
   const city = request.data.city; // access data sent from angular
@@ -75,6 +79,8 @@ import { onCreate } from "firebase-functions/v2/auth";
 export const initializeUser = onCreate((user) => {
   const email = user.email;
   const displayName = user.displayName;
+
+  // do something
 });
 ```
 
@@ -85,7 +91,13 @@ export const initializeUser = onCreate((user) => {
 ```ts
 import { onObjectFinalized } from "firebase-functions/v2/storage";
 
-export const generateThumbnail = onObjectFinalized((event) => {});
+export const generateThumbnail = onObjectFinalized((event) => {
+  const bucket = event.data.bucket;
+  const filepath = event.data.name;
+  const contentPath = event.data.contentType;
+
+  // do something
+});
 ```
 
 ##### 2.
@@ -266,5 +278,3 @@ firebase functions:log # streams cloud logs directly to terminal
 firebase functions:secrets:set STRIPE_KEY # securely uploads a sensitive key to google cloud secret manager
 firebase functions:secrets:access STRIPE_KEY # checks if the secret is correctly set
 ```
-
-##
