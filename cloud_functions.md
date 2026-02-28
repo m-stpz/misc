@@ -87,9 +87,82 @@ Data flow:
 - 4. stores updates: component receives the response and updates the signal store
 - 5. UI reacts: angular watches the signal, and once it's updated by the store, the value in the html is updated
 
+## Type safety between frontend and backend
+
+- By default, `httpsCallable` is "blind
+- It takes a string as the function name and returns `any`/`unknown`
+- However, to achieve full end-to-end type safety using generics or shared interfaces
+
+### Manual "Generic" approach
+
+- Define the request data and respose data in a shared file and pass them to the `httpsCallable` method
+
+```ts
+interface CounterRequest {
+  currentCount: number;
+}
+interface CounterResponse {
+  total: number;
+}
+
+// use generics: <RequestType, ResponseType> | similar to redux
+const incrementFn = httpsCallable<CounterRequest, CounterResponse>(
+  this.functions,
+  "incrementCounter", // still just a string!
+);
+
+const result = await incrementFn({ currentCount: 5 }); // now, ts knows 'data' has total
+```
+
+### True TS support | shared types
+
+1. create a shared library that both angular app and cloud functions import
+
+```ts
+// shared/index.ts
+export type FunctionNames = "incrementCounter" | "processPayment" | "sendEmail";
+interface IncrementCounter {
+  req: { currentCount: number };
+  res: { total: number };
+}
+interface SendEmail {
+  req: { to: string; body: string };
+  res: { success: boolean };
+}
+
+export interface CloudFunctionsMap {
+  incrementCounter: IncrementCounter;
+  sendEmail: SendEmail;
+}
+```
+
+2. Create a type-safe wrapper
+
+- Instead of calling `httpsCallable` directly in every component, create a small helper service in angular
+
+```ts
+// src/app/api.service.ts
+import { CloudFunctionsMap } from '../../shared';
+
+callCloud<K extends keyof CloudFunctionsMap>(
+  name: K,
+  payload: CloudFunctionsMap[K]['req']
+) {
+  const feat = httpsCallable<CloudFunctionsMap[K]['req'], CloudFunctionsMap[K]['res']>(
+    this.functions,
+    name
+  );
+  return feat(payload);
+}
+```
+
+- Now, in the component, we get autocomplete
+  - if we type `this.api.callCloud('inc..'), it will suggest `incrementCounter`
+
 ## To learn
 
 - local emulator
 - having multiple functions
 - shared interfaces
 - any other important concept
+- accessing the db/collections through cloud functions
