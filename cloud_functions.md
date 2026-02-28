@@ -31,7 +31,66 @@
 | HTTPs            | `onRequest`, `onCall`                    | create a custom API endpoint for a 3rd party webhook                |
 | Scheduled        | `onSchedule`                             | run up a script every night at 8 am                                 |
 
-### Execution environment
+#### Different triggers
+
+##### 1. HTTPS Callable: Direct client-to-backend
+
+```ts
+export const getWeather = onCall(async (request) => {
+  const city = request.data.city; // access data sent from angular
+
+  const uid = request.auth?.uid; // authentication context automatically provided
+
+  return { temparature: 22, unit: "celsius" };
+});
+```
+
+##### 2. Firestore triggers: db events
+
+- Reacts to data changes
+- Happens in the background when a document is modified
+
+```ts
+import { onDocumentCreated } from "firebase-functions/v2/firestore";
+
+// triggered whenever a document is created in the "messages" collection
+export const notifyOnNewMessage = onDocumentCreated(
+  "messages/{messageId}",
+  (event) => {
+    const newValue = event.data?.data(); // document content
+    const messageId = event.params.messageId; // the id from the url
+
+    // do something
+  },
+);
+```
+
+##### 3. Authentication trigger
+
+- Useful for 'setting up' a user the moment they register
+
+```ts
+import { onCreate } from "firebase-functions/v2/auth";
+
+export const initializeUser = onCreate((user) => {
+  const email = user.email;
+  const displayName = user.displayName;
+});
+```
+
+##### 4. Cloud storage trigger
+
+- Reacts to file uploads, deletions, or metadata changes
+
+```ts
+import { onObjectFinalized } from "firebase-functions/v2/storage";
+
+export const generateThumbnail = onObjectFinalized((event) => {});
+```
+
+##### 2.
+
+### 3. Execution environment
 
 - Primary environments are node and python
 - Admin SDK:
@@ -40,7 +99,7 @@
 - Secret management: never hardcode API keys
   - firebase uses google cloud secret manager to securely inject sensitive data into your functions at runtime
 
-### 1st gen vs 2nd gen
+### 4. 1st gen vs 2nd gen
 
 - 1st gen: classic version
   - reliable, but has lower limits on request size and execution time
@@ -49,6 +108,12 @@
   - supports longer request timeouts (up to 60 mins for http)
   - large instances (up to 32gb)
   - concurrency: handling multiple requests with one instance to save money and reduce cold starts
+
+### 5. Local emulator
+
+- Allows us to run a mock version of the entire firebase backend locally
+- The emulator suite is a set of local server processes (written in Java) that mimic the behavior of real firebase services
+- UI: provides a local web dashboard (usually `localhost:4000`), where we can manually edit db entries, view logs, and trigger functions
 
 ### Critical technical hurdles
 
@@ -159,10 +224,47 @@ callCloud<K extends keyof CloudFunctionsMap>(
 - Now, in the component, we get autocomplete
   - if we type `this.api.callCloud('inc..'), it will suggest `incrementCounter`
 
-## To learn
+For further example, check `intermediate_example`
 
-- local emulator
-- having multiple functions
-- shared interfaces
-- any other important concept
-- accessing the db/collections through cloud functions
+## Deploying
+
+- When deploying, firebase orchestrates the infra update
+- Containerization:
+  - Google packages your code into a container image and stores it in the artifact registry
+- Zero downtime
+  - firebase uses "rolling updates"
+
+```bash
+# deploy everything: hosting, functions, firestore rules, etc
+firebase deploy
+
+# deploy only cloud functions
+firebase deploy --only functions
+
+# deploy specific function
+firebase deploy --only functions:incrementCounter
+
+# deploy functions and firestore rules together
+firebase deploy --only functions,firestore
+```
+
+## CLI
+
+```bash
+# account and project setup
+firebase login # connects terminal to goog
+firebase proects:list # show all firebase projects
+firebase use --add # links local folder to a specific firebase project [e.g., switching between staging and production]
+
+# development and debugging
+firebase init # interactive wizard to set up your project [always run this from the root]
+firebase emulators:start # launches local env
+firebase functions:log # streams cloud logs directly to terminal
+    firebase functions:log --lines 50 # last 50 entries
+
+# configuration and secrets
+firebase functions:secrets:set STRIPE_KEY # securely uploads a sensitive key to google cloud secret manager
+firebase functions:secrets:access STRIPE_KEY # checks if the secret is correctly set
+```
+
+##
