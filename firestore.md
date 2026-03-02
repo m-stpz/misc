@@ -23,7 +23,7 @@
 | create    | `set()`    | document       | uses the id your provide. can overwrite data            |
 | read      | `get()`    | doc/collection | returns a "Snapshot". must call `data()` to see content |
 | update    | `update()` | document       | fails if the document doesn't exist                     |
-| delete    | `delete()` | document       | doesn't delete subcollections within the document       |
+| delete    | `delete()` | document/field | doesn't delete subcollections within the document       |
 
 ### Create
 
@@ -92,5 +92,42 @@ import { FieldValue } from "firebase-admin/firestore";
 
 await userRef.update({
   loginCount: FieldValue.increment(1),
+});
+```
+
+### Delete
+
+- We can delete a specific document or field within document
+
+```ts
+// delete entire doc
+await db.collection("orders").doc("order_123").delete();
+
+// dele single field
+await db.collection("users").doc("user_123").update({
+  temporaryToken: FieldValue.delete(),
+});
+```
+
+## Transactions
+
+- Ensures that read/write happen as one atomic unit
+  - Meaning, you can't do a "write" before a "read" inside a transaction
+- If someone else changes the data while your transaction is running, Firestore retries it automatically
+
+```ts
+const aliceRef = db.collection("users").doc("alice");
+const bobRef = db.collection("users").doc("bob");
+
+await db.runTransaction(async (t) => {
+  const aliceSnap = await t.get(aliceRef);
+  const aliceBalance = aliceSnap.data().balance;
+
+  if (aliceBalance < 100) {
+    throw "insufficient funds";
+  }
+
+  t.update(aliceRef, { balance: aliceBalance - 100 });
+  t.update(bobRef, { balance: FieldValue.increment(100) });
 });
 ```
