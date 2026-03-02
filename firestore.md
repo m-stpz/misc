@@ -69,7 +69,32 @@ const ordersSnap = await db
 ordersSnap.forEach((doc) => console.log(doc.id, "->", doc.data()));
 ```
 
-- What are the possibilities of querying?
+#### Querying
+
+- It's about narrowing down the data
+
+##### Simple Equality & Comparison
+
+- the basic: `==`, `!=`, `<`, `<=`, `>`, `>=`
+- they can be chained
+
+```ts
+// where(field, comparing, desired-field)
+
+const q = db
+  .collection("products")
+  .where("category", "==", "electronics")
+  .where("status", "==", "active")
+  .where("price", "<", 500);
+```
+
+##### Array and membership queries
+
+| operator             | use case                                  | example                                                   |
+| -------------------- | ----------------------------------------- | --------------------------------------------------------- |
+| `array-contains`     | document has a list, find if "x" is in it | `.where("tags", "array-contains", "angular")`             |
+| `in`                 | field matches any of up to 30 values      | `.where("status", "in", ["draft", "published"])`          |
+| `array-contains-any` | document list has at least one of these   | `.where("tags", "array-contains-any", ["web", "mobile"])` |
 
 ### Update
 
@@ -131,3 +156,29 @@ await db.runTransaction(async (t) => {
   t.update(bobRef, { balance: FieldValue.increment(100) });
 });
 ```
+
+## Batched Writes | Bulk upload pattern
+
+- If we need to perform > 500 writes and don't need to read any data first, batch update is the path
+- Faster and cheaper than individual calls
+- "All or nothing", if one fails, all fail
+
+```ts
+const batch = db.batch();
+
+const doc1 = db.collection("logs").doc(); // auto-id
+batch.set(doc1, { msg: "first log" });
+
+const doc2 = db.collection("users").doc("user_123");
+batch.update(doc2, { status: "active" });
+```
+
+## to learn
+
+- after changing the cloud function, do I need to rebuild them?
+  - how and what's the best way to do this?
+- what's a standard folder structure for cloud functions? how are they organized?
+- what's the repository pattern?
+  - don't call firestore directly, all data access goes through a datarepository<model, pathprops>
+- how to have a path property?
+- to check patterns we use
