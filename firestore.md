@@ -15,6 +15,48 @@
 - Documents can only live inside collections
 - When performing operations, we update the document. Collections are just containers
 
+## Querying
+
+- It's about narrowing down the data
+
+| Operation      | example                                               |
+| -------------- | ----------------------------------------------------- |
+| equality       | `.where('type', '==', 'user')                         |
+| range          | `.where('price', '>', 500).where('price', '<=', 1000) |
+| array contains | `.where('tags', 'array-contains', 'angular')`         |
+| in-filter      | `.where('status', 'in', ['pending', 'shipped'])`      |
+
+### Simple Equality & Comparison
+
+- the basic: `==`, `!=`, `<`, `<=`, `>`, `>=`
+- they can be chained
+
+```ts
+// where(field, comparing, desired-field)
+
+const q = db
+  .collection("products")
+  .where("category", "==", "electronics")
+  .where("status", "==", "active")
+  .where("price", "<", 500);
+```
+
+### Array and membership queries
+
+| operator             | use case                                  | example                                                   |
+| -------------------- | ----------------------------------------- | --------------------------------------------------------- |
+| `array-contains`     | document has a list, find if "x" is in it | `.where("tags", "array-contains", "angular")`             |
+| `in`                 | field matches any of up to 30 values      | `.where("status", "in", ["draft", "published"])`          |
+| `array-contains-any` | document list has at least one of these   | `.where("tags", "array-contains-any", ["web", "mobile"])` |
+
+### Ordering and limiting
+
+- By default, firestore doesn't return docs in a specific order. We usually sort them
+
+```ts
+const q = db.collection("orders").orderBy("createdAt", "desc").limit(10); // sort: newest firsts
+```
+
 ## CRUD Operations
 
 | operation | command    | target         | key difference                                          |
@@ -69,32 +111,19 @@ const ordersSnap = await db
 ordersSnap.forEach((doc) => console.log(doc.id, "->", doc.data()));
 ```
 
-#### Querying
+### Delete
 
-- It's about narrowing down the data
-
-##### Simple Equality & Comparison
-
-- the basic: `==`, `!=`, `<`, `<=`, `>`, `>=`
-- they can be chained
+- We can delete a specific document or field within document
 
 ```ts
-// where(field, comparing, desired-field)
+// delete entire doc
+await db.collection("orders").doc("order_123").delete();
 
-const q = db
-  .collection("products")
-  .where("category", "==", "electronics")
-  .where("status", "==", "active")
-  .where("price", "<", 500);
+// dele single field
+await db.collection("users").doc("user_123").update({
+  temporaryToken: FieldValue.delete(),
+});
 ```
-
-##### Array and membership queries
-
-| operator             | use case                                  | example                                                   |
-| -------------------- | ----------------------------------------- | --------------------------------------------------------- |
-| `array-contains`     | document has a list, find if "x" is in it | `.where("tags", "array-contains", "angular")`             |
-| `in`                 | field matches any of up to 30 values      | `.where("status", "in", ["draft", "published"])`          |
-| `array-contains-any` | document list has at least one of these   | `.where("tags", "array-contains-any", ["web", "mobile"])` |
 
 ### Update
 
@@ -117,20 +146,6 @@ import { FieldValue } from "firebase-admin/firestore";
 
 await userRef.update({
   loginCount: FieldValue.increment(1),
-});
-```
-
-### Delete
-
-- We can delete a specific document or field within document
-
-```ts
-// delete entire doc
-await db.collection("orders").doc("order_123").delete();
-
-// dele single field
-await db.collection("users").doc("user_123").update({
-  temporaryToken: FieldValue.delete(),
 });
 ```
 
@@ -182,3 +197,4 @@ batch.update(doc2, { status: "active" });
   - don't call firestore directly, all data access goes through a datarepository<model, pathprops>
 - how to have a path property?
 - to check patterns we use
+- firestore rules
