@@ -1,24 +1,43 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { CloudFunctionsMap } from "../../shared/models";
+import { getFirestore } from "firebase-admin/firestore"; // Use Admin SDK
+
+const db = getFirestore();
 
 // functions
 export const updateDisplayName = onCall<
   CloudFunctionsMap["updateDisplayName"]["req"]
->((request) => {
+>(async (request) => {
   const name = request.data.newName;
+  const uid = request.auth?.uid; // auth context is automatic in `onCall`
+
+  if (!uid) {
+    throw new HttpsError("unauthenticated", "must be logged in");
+  }
 
   if (name.length < 3) {
     throw new HttpsError("invalid-argument", "name too short");
   }
 
-  // logic to update db...
+  try {
+    // direct db logic
+    const userRef = db.collection("users").doc(uid);
 
-  return {
-    success: true,
-    updatedAt: new Date().toISOString(),
-  };
+    await userRef.update({
+      displayName: name,
+      updatedAt: new Date().toISOString(),
+    });
+
+    return {
+      success: true,
+      updatedAt: new Date().toISOString(),
+    };
+  } catch (error) {
+    throw new HttpsError("internal", "failed to update db");
+  }
 });
 
+// to continue notes [without repository pattern, then notes with it]
 export const getUserStats = onCall<CloudFunctionsMap["getUserStats"]["req"]>(
   (request) => {
     return {
