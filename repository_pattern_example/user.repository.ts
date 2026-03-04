@@ -27,6 +27,7 @@ export class UserRepository {
   async getById(uid: string): Promise<UserProfile> {
     const snap = this.db.collection(this.collectionPath).doc(uid).get();
 
+    // handles non-existance
     if (!snap.exists) {
       throw new Error("user not found");
     }
