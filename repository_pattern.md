@@ -17,20 +17,18 @@
 - If adding a new feature, don't rewrite the logic. Just "extend" the base
 
 ```ts
-// 1. define path
-export const TaskPath = "projects/{projectId}/tasks";
+// shared model and path
 
-// 2. create the repo
-@Injectable({ providedIn: "root" })
-export class TaskRepository extends DataRepository<
-  Task,
-  { projectId: string }
-> {
-  constructor(dataservice: DataService) {
-    // the base class handles all CRUD logic
-    super(Task, TaskPath as any, dataservice);
-  }
+// shared/models.ts
+export interface Board {
+  id?: string;
+  name: string;
+  status: "active" | "archived";
+  members: string[];
 }
+
+// The path configuration
+export const BoardPath = "boards";
 ```
 
 ```ts
