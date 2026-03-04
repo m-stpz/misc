@@ -2,7 +2,7 @@
 
 import { Injectable, inject } from "@angular/core";
 import { Functions, httpsCallable } from "@angular/fire/functions";
-import { CloudFunctionsMap, FunctionName } from "../../shared/models";
+import { CloudFunctionsMap, FunctionName } from "./models";
 import { firstValueFrom, from, Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })

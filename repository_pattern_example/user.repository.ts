@@ -1,6 +1,9 @@
 import { FireStore, doc, updateDoc, getDoc } from "firebase-admin/firestore";
-import { UserProfile } from "../../../shared/models";
+import { UserProfile } from "./models.shared";
 
+/**
+ * communicates with the db
+ */
 export class UserRepository {
   private collectionPath = "users";
 

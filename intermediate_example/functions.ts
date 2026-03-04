@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { CloudFunctionsMap } from "../../shared/models";
+import { CloudFunctionsMap } from "./models";
 import { getFirestore } from "firebase-admin/firestore"; // Use Admin SDK
 
 const db = getFirestore();
@@ -37,7 +37,6 @@ export const updateDisplayName = onCall<
   }
 });
 
-// to continue notes [without repository pattern, then notes with it]
 export const getUserStats = onCall<CloudFunctionsMap["getUserStats"]["req"]>(
   async (request) => {
     const userId = request.data.userId;
