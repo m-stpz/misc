@@ -14,40 +14,4 @@
 
 ## Example
 
-- If adding a new feature, don't rewrite the logic. Just "extend" the base
-
-```ts
-// shared model and path
-
-// shared/models.ts
-export interface Board {
-  id?: string;
-  name: string;
-  status: "active" | "archived";
-  members: string[];
-}
-
-// The path configuration
-export const BoardPath = "boards";
-```
-
-```ts
-export class BoardListComponent {
-  private boardRepo = inject(BoardRepository);
-
-  // real-time stream of boards
-  board$ = this.boardRepo.watch();
-
-  async addNewBoard(name: string) {
-    // repo.save() handles the .add or .set() logic internally
-    await this.boardRepo.save({ name, status: "active" });
-  }
-
-  async addMember(boardId: string, userId: string) {
-    // use atomic array union to avoid data loss
-    await this.boardRepo.update(boardId, {
-      members: this.boardRepo.atomic.arrayUnion(userId),
-    });
-  }
-}
-```
+- Check `repository_pattern_example` files

@@ -22,6 +22,11 @@ import { Observable } from "rxjs";
  * - powers entire data layer
  * - handles low-level firebase SDK calls
  * - specific repositories only worry about paths and types
+ *
+ * T: data model
+ * P: path requirements
+ *
+ * Provides a firebase-free way for components to perform server-side math and array updates
  */
 export abstract class DataRepository<T, P> {
   protected firestore = inject(Firestore);
@@ -68,5 +73,17 @@ export abstract class DataRepository<T, P> {
     const docRef = doc(this.firestore, fullPath);
     // setDoc with merge: true acts as an "upsert"
     return setDoc(docRef, data, { merge: true });
+  }
+
+  async update(id: string, data: Partial<T>, props: P): Promise<void> {
+    const fullPath = this.buildPath(id, props);
+    const docRef = doc(this.firestore, fullPath);
+    return updateDoc(docRef, data as any);
+  }
+
+  async delete(id: string, props: P): Promise<void> {
+    const fullPath = this.buildPath(id, props);
+    const docRef = doc(this.firestore, fullPath);
+    return deleteDoc(docRef);
   }
 }

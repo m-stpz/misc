@@ -2,7 +2,8 @@ import { FireStore, doc, updateDoc, getDoc } from "firebase-admin/firestore";
 import { UserProfile } from "./models.shared";
 
 /**
- * communicates with the db
+ * Since we extend the DataRepository, it only focuses on user-specific logic
+ * CRUD boilerplate is handled by the parent class
  */
 export class UserRepository {
   private collectionPath = "users";
