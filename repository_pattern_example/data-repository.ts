@@ -1,19 +1,16 @@
 import { inject } from "@angular/core";
 import {
   Firestore,
-  collection,
   doc,
   docData,
-  collectionData,
   setDoc,
   updateDoc,
   deleteDoc,
-  query,
-  where,
-  runTransaction,
   arrayUnion,
   arrayRemove,
   increment,
+  collection,
+  collectionData,
 } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 
@@ -35,7 +32,6 @@ export abstract class DataRepository<T, P> {
   constructor(
     protected model: any,
     protected path: any,
-    protected dataService: any,
   ) {}
 
   /**
@@ -66,6 +62,16 @@ export abstract class DataRepository<T, P> {
     const fullPath = this.buildPath(id, props);
     const docRef = doc(this.firestore, fullPath);
     return docData(docRef, { idField: "id" }) as Observable<T>;
+  }
+
+  watchCollection(props: P): Observable<T[]> {
+    // 1. Build the path to the collection (e.g., "organizations/123/boards")
+    const colPath = this.buildPath(null, props);
+
+    // 2. create the firestore collection reference
+    const colRef = collection(this.firestore, colPath);
+
+    return collectionData(colRef, { idField: "id" }) as Observable<T[]>;
   }
 
   async save(id: string, data: Partial<T>, props: P): Promise<void> {

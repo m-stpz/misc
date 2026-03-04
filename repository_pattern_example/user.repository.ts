@@ -1,38 +1,52 @@
-import { FireStore, doc, updateDoc, getDoc } from "firebase-admin/firestore";
-import { UserProfile } from "./models.shared";
+import { UserProfile } from "./models";
+import { DataRepository } from "./data-repository";
+import { UserPath, UserPathProperties } from "./path-properties";
 
 /**
  * Since we extend the DataRepository, it only focuses on user-specific logic
  * CRUD boilerplate is handled by the parent class
  */
-export class UserRepository {
-  private collectionPath = "users";
-
-  constructor(private db: FirebaseFirestore.Firestore) {}
-
-  /**
-   * encapsulate update logic
-   */
-  async updateProfile(uid: string, data: Partial<UserProfile>) {
-    const userRef = this.db.collection(this.collectionPath).doc(uid);
-
-    return userRef.update({
-      ...data,
-      updatedAt: new Date().toISOString(),
-    });
+export class UserRepository extends DataRepository<
+  UserProfile,
+  UserPathProperties
+> {
+  constructor() {
+    // Model class, Path class, and the shared API service
+    super(UserProfile, UserPath);
   }
 
-  /**
-   * encapsulate read logic
-   */
-  async getById(uid: string): Promise<UserProfile> {
-    const snap = this.db.collection(this.collectionPath).doc(uid).get();
+  streamProfile(uid: string) {
+    return this.watch(uid, {});
+  }
 
-    // handles non-existance
-    if (!snap.exists) {
-      throw new Error("user not found");
-    }
+  async updateProfile(uid: string, data: Partial<UserProfile>): Promise<void> {
+    const timedData = {
+      ...data,
+      updatedAt: new Date().toISOString(),
+    };
 
-    return snap.data() as UserProfile;
+    // the .update from `DataRepository` base class
+    return this.update(uid, timedData, {});
+  }
+
+  async setupProfile(uid: string, profile: Partial<UserProfile>) {
+    return this.save(
+      uid,
+      {
+        ...profile,
+        loginCount: 0,
+      },
+      {},
+    );
+  }
+
+  async recordLogin(uid: string) {
+    return this.update(
+      uid,
+      {
+        loginCount: this.atomic.increment(1),
+      },
+      {},
+    );
   }
 }

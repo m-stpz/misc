@@ -15,3 +15,12 @@
 ## Example
 
 - Check `repository_pattern_example` files
+
+## Data flow
+
+| Layer       | component        | responsibility                                                 | speaks in              |
+| ----------- | ---------------- | -------------------------------------------------------------- | ---------------------- |
+| UI          | ProfileComponent | Handles user events & displays data                            | signals & html         |
+| Logic       | UserRepository   | Enforces business logic                                        | models (`UserProfile`) |
+| Base engine | DataRepository   | Handles CRUD boilerplate & path building & talks with firebase | Generics (`T`, `P`)    |
+| Path engine | UserPath         | Computes the physical string: `users`                          | Paths & properties     |
