@@ -6,12 +6,14 @@ export class ProfileComponent {
   userStats = signal<UserStats>(null);
 
   async changeName() {
-    const response = await this.api.call("updateDisplayName", {
-      newName: "...",
-    });
+    try {
+      const response = await this.api.call("updateDisplayName", {
+        newName: "...",
+      });
 
-    if (response.sucess) {
       console.log(response.updatedAt);
+    } catch (error) {
+      console.error("Cloud function error:", err);
     }
   }
 

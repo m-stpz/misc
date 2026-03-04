@@ -39,10 +39,19 @@ export const updateDisplayName = onCall<
 
 // to continue notes [without repository pattern, then notes with it]
 export const getUserStats = onCall<CloudFunctionsMap["getUserStats"]["req"]>(
-  (request) => {
+  async (request) => {
+    const userId = request.data.userId;
+    const snapshot = await db.collection("users").doc(userId).get();
+
+    if (!snapshot.exists) {
+      throw new HttpsError("not-found", "user not found");
+    }
+
+    const data = snapshot.data();
+
     return {
-      loginCount: 42,
-      lastActive: Date.now(),
+      loginCount: data?.loginCount ?? 0,
+      lastActive: data?.lastActive ?? Date.now(),
     };
   },
 );
