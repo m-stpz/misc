@@ -1,11 +1,14 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getFirestore } from "firebase-admin/firestore";
-import { UserRepository } from "./user.repository";
+import { UserRepository } from "../shared/user.repository";
+import { Container } from "typedi";
 
-const db = getFirestore();
-const userRepo = new UserRepository(db); // instantiate the repo
+// since we're using typedi, we don't instantiate it manually
+// const userRepo = new UserRepository(db); // instantiate the repo
 
 export const updateDisplayName = onCall(async (request) => {
+  const userRepo = Container.get(UserRepository);
+
   const name = request.data.newName;
   const uid = request.auth?.uid; // auth context is automatic in `onCall`
 
@@ -31,6 +34,8 @@ export const updateDisplayName = onCall(async (request) => {
 });
 
 export const getUserStats = onCall(async (request) => {
+  const userRepo = Container.get(UserRepository);
+
   try {
     const user = await userRepo.getById(request.data.userId);
 

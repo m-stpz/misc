@@ -38,3 +38,5 @@ export interface CloudFunctionsMap {
     };
   };
 }
+
+export type FunctionName = keyof CloudFunctionsMap;

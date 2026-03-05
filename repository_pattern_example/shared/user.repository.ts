@@ -1,11 +1,15 @@
 import { UserProfile } from "./models";
 import { DataRepository } from "./data-repository";
 import { UserPath, UserPathProperties } from "./path-properties";
+import { Service } from "typedi";
 
 /**
  * Since we extend the DataRepository, it only focuses on user-specific logic
  * CRUD boilerplate is handled by the parent class
+ *
+ * - Since, we're using TypeDI, we need to register with the TypeDI container
  */
+@Service()
 export class UserRepository extends DataRepository<
   UserProfile,
   UserPathProperties
