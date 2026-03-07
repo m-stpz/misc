@@ -39,6 +39,7 @@ export interface Meeting extends ModelInterface {
 export interface MeetingPathProperties extends BasePathProperties {
   organization: ID;
   group: ID;
+  [key: string]: any;
 }
 
 /**
