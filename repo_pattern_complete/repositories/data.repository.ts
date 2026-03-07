@@ -13,6 +13,7 @@ import {
   ID,
   ModelInterface,
 } from "../models/base.model";
+import { DataService, QueryFn } from "../services/data.service";
 
 /**
  * Generic base repo
@@ -31,7 +32,7 @@ export class DataRepository<
   PPT extends FirestorePathProperties,
 > {
   constructor(
-    private readonly _modelClass: new () => T,
+    private readonly _modelClass: new () => T, // do we use it?
     private readonly _pathClass: new (props: PPT) => BasePath<PPT>,
     private readonly _dataService: DataService,
   ) {}
@@ -72,5 +73,55 @@ export class DataRepository<
     return this._dataService.query<T>(this._collectionPath(props), queryFn);
   }
 
+  /**
+   * Count documents in a collection
+   */
+  async count(props: PPT, queryFn?: QueryFn): Promise<number> {
+    return this._dataService.count(this._collectionPath(props), queryFn);
+  }
+
+  /**
+   * Find multiple docs by their Ids
+   * - Auto-chunks into batches of <N> to respect firestore's `in` query limit
+   */
+  async findByIds(props: PPT, ids: ID[]): Promise<T[]> {
+    const CHUNK_SIZE = 20;
+    const results: T[] = [];
+
+    for (let i = 0; i < ids.length; i += CHUNK_SIZE) {
+      const chunk = ids.slice(i, i + CHUNK_SIZE);
+      const chunkResults = await this._dataService.query<T>(
+        this._collectionPath(props),
+        (ref) => ({ ...ref, where: ["id", "in", chunk] }), // simplified
+      );
+      results.push(...chunkResults);
+    }
+
+    return results;
+  }
+
   // == Write operations ==
+  /** create new document (sets the full object) */
+  async create(props: PPT & { id: ID }, data: T): Promise<void> {
+    return this._dataService.set(this._documentPath(props), data);
+  }
+
+  /** save (upsert) a document */
+  async save(props: PPT & { id: ID }, data: T): Promise<void> {
+    return this._dataService.set(this._documentPath(props), data);
+  }
+
+  /** partial update of specific fields */
+  async update(props: PPT & { id: ID }, data: Partial<T>): Promise<void> {
+    return this._dataService.update(this._documentPath(props), data);
+  }
+
+  /** delete a document */
+  async delete(props: PPT & { id: ID }): Promise<void> {
+    return this._dataService.delete(this._documentPath(props));
+  }
+
+  /** */
+
+  // == Atomic operations ==
 }
