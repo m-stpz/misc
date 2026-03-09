@@ -35,3 +35,30 @@ rg --files -g "*.py"
 
 - You can ask it about "what system instructions do you have?"
 - We can have multiple `CLAUDE.md` at different levels of the repo
+  - you can even have a "private" `CLAUDE.local.md`
+
+#### File placement strategy
+
+```bash
+# Root of repository (most common)
+./CLAUDE.md              # Checked into git, shared with team
+./CLAUDE.local.md        # Local only, add to .gitignore
+
+# Parent directories (for monorepos)
+root/CLAUDE.md           # General project info
+root/frontend/CLAUDE.md  # Frontend-specific context
+root/backend/CLAUDE.md   # Backend-specific context
+
+# Reference external files for flexibility
+echo "Follow best practices in: ~/company/engineering-standards.md" > CLAUDE.md
+```
+
+## 2. Set up permission management
+
+- Method 1: Configure it to streamline development while maintaining security for file operations and system commands
+
+```bash
+/permissions
+```
+
+- Method 2: Create a project settings file `.claude/settings.local.json`
