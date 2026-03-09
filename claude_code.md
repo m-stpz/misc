@@ -62,3 +62,74 @@ echo "Follow best practices in: ~/company/engineering-standards.md" > CLAUDE.md
 ```
 
 - Method 2: Create a project settings file `.claude/settings.local.json`
+
+## 4. Custom slash commands
+
+- Slash commands are the key to adding your own workflows into Claude Code
+- They live in `.claude/commands/`, and allow us to create reusable, parameterized workflows
+
+### Built-in
+
+```bash
+/init           # generate initial CLAUDE.md
+/permissions    # manage tool permissions
+/clear          # clear context between tasks
+/agents         # manage subagents
+/help
+```
+
+### Custom command example
+
+- e.g. repository analysis
+  - performs comprehensive repo analysis to prime Claude code on your codebase
+
+```bash
+/primer
+```
+
+#### Create it
+
+1. create a md file in `.claude/commands/<command>.md`
+
+```md
+# Command: analyze-performance
+
+Analyze the performance of the file specified in $ARGUMENTS.
+
+## Steps:
+
+1. Read the file at path: $ARGUMENTS
+2. Identify performance bottlenecks
+3. Suggest optimizations
+4. Create a benchmark script
+```
+
+2. Use command
+
+```bash
+/analyze-performance src/heavy-computation.js
+```
+
+### Some examples
+
+#### Project management & git
+
+```bash
+/commit # automatically stages changes and writes a conventional commit message
+/review-pr # analyses a specific PR branch against the main branch and identifies potential bugs or logic flaws
+/catchup  # used after a `/clear` command. re-scans the current `git diff` and uncommited changes to restore claude's memory
+```
+
+#### Code quality and standards
+
+```bash
+/simplify # refactoring command that looks for redundant logic, improves variable naming, increses readability
+/rtfm # read the fucking manual
+```
+
+#### Testing and debugging
+
+```bash
+/test-gen # identifies functions without test coverage and generates unit tests for them
+/debug [logs] # tajes piped log outputs or a specific error message and performs root-cause analysis
+```
