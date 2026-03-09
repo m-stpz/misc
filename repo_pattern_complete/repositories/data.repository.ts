@@ -121,7 +121,40 @@ export class DataRepository<
     return this._dataService.delete(this._documentPath(props));
   }
 
-  /** */
-
   // == Atomic operations ==
+  async increment(
+    props: PPT & { id: ID },
+    field: keyof T & string,
+    amount: number,
+  ): Promise<void> {
+    return this._dataService.increment(
+      this._documentPath(props),
+      field,
+      amount,
+    );
+  }
+
+  async arrayUnion(
+    props: PPT & { id: ID },
+    field: keyof T & string,
+    values: unknown[],
+  ): Promise<void> {
+    return this._dataService.arrayUnion(
+      this._documentPath(props),
+      field,
+      values,
+    );
+  }
+
+  async arrayRemove(
+    props: PPT & { id: ID },
+    field: keyof T & string,
+    values: unknown[],
+  ): Promise<void> {
+    return this._dataService.arrayRemove(
+      this._documentPath(props),
+      field,
+      values,
+    );
+  }
 }
