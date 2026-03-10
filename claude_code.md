@@ -63,7 +63,7 @@ echo "Follow best practices in: ~/company/engineering-standards.md" > CLAUDE.md
 
 - Method 2: Create a project settings file `.claude/settings.local.json`
 
-## 4. Custom slash commands
+## 3. Custom slash commands
 
 - Slash commands are the key to adding your own workflows into Claude Code
 - They live in `.claude/commands/`, and allow us to create reusable, parameterized workflows
@@ -132,4 +132,48 @@ Analyze the performance of the file specified in $ARGUMENTS.
 ```bash
 /test-gen # identifies functions without test coverage and generates unit tests for them
 /debug [logs] # tajes piped log outputs or a specific error message and performs root-cause analysis
+```
+
+## 4. MCP Servers
+
+- MCP [Model Context Protocol] is a "USB-C port" for AI
+  - Standardizes how AI models connect to software, dbs, and local files
+- Allows enhanced functionality
+- Add Serena MCP Server, a very powerful coding toolkit
+
+```bash
+# Install Serena for semantic code analysis and editing
+claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant --project $(pwd)
+```
+
+```bash
+claude mcp list # list all configured servers
+claude mcp get serena # get details about a specific server
+claude mcp remove serena # remove server
+```
+
+### Core Concepts
+
+- MCP Server: small program that "exposes" specific tools or data to the AI
+- Tools: actions the server can perform (e.g, `create_issue`, `search_files`, `execute_query`)
+- Resources: data sources the AI can read (e.g. specific log files, db table, documentation page)
+- Transports: how the client and server talk
+
+### Most useful MCPs
+
+#### Essential development
+
+- Github server
+- PostgreSQL / MySQL / Supabase / Firebase: allows claude inspect your database schema and run safe read-only queries to understand your data model
+- Docker toolkit: enables claude to spawn isolated containers to run your code, execute tests, and debug environment-specific issues without touching host machine
+
+#### Search and research
+
+- Brave search / tavily: gives claude "live" internet access to look up the latest API documentation
+- Fetch: simple, but powerful server that converts any website into markdown, allowing claude to read documentation pages you link to
+
+### How to add them to claude code
+
+```bash
+claude mcp add [name] [command]
 ```
