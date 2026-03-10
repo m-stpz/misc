@@ -63,6 +63,20 @@ echo "Follow best practices in: ~/company/engineering-standards.md" > CLAUDE.md
 
 - Method 2: Create a project settings file `.claude/settings.local.json`
 
+### Adding permissions to mcp servers
+
+```json
+.claude/settings.local.json
+{
+  "permissions": {
+    "allow": [
+      // permissions
+      "mcp__<mcp-name>"
+    ]
+  }
+}
+```
+
 ## 3. Custom slash commands
 
 - Slash commands are the key to adding your own workflows into Claude Code
@@ -143,6 +157,7 @@ Analyze the performance of the file specified in $ARGUMENTS.
 
 ```bash
 # Install Serena for semantic code analysis and editing
+# great for working with existing codebases
 claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context ide-assistant --project $(pwd)
 ```
 
@@ -161,6 +176,8 @@ claude mcp remove serena # remove server
 
 ### Most useful MCPs
 
+https://registry.modelcontextprotocol.io/
+
 #### Essential development
 
 - Github server
@@ -172,8 +189,76 @@ claude mcp remove serena # remove server
 - Brave search / tavily: gives claude "live" internet access to look up the latest API documentation
 - Fetch: simple, but powerful server that converts any website into markdown, allowing claude to read documentation pages you link to
 
+#### Security
+
+- Shannon: autonomous pen testing. Specialized security server that lets claude perform autonomous penetration testing on your code
+  - it identifies vulnerabilities like SQL injection or broken auth before you commit
+- Sentry: server allows real-time production error logs
+
+#### Intelligence and workflow
+
+- Sequential thinking: forces claude to "show its work" by breaking complex architectural decisions into a multi-step process
+- Mem0: long-term memory. adds persistent memory layer across all your projects
+- Excalidraw diagrammer: allows visual architecture diagrams or flowcharts using excalidraw format
+
 ### How to add them to claude code
 
 ```bash
-claude mcp add [name] [command]
+claude mcp add [name] [command] # add a server
+claude mcp list # see what's active
 ```
+
+## Research and connectivity
+
+- `Exa`: search engine specifically for AI
+- `Puppetter / Playwright`: gives claude code a web browser
+
+## 5. Context engineering with examples
+
+- PRP (Product requirements prompt) is a 3-step strategy for context engineering
+
+1. Define your requirements with examples and context
+
+- Edit `INITIAL.md` to include example code and patterns
+
+2. Genere PRP
+
+```bash
+/generate-prp INITIAL.MD
+```
+
+3. Execute PRP to implement feature
+
+```bash
+/execute-prp PRPs/<feature-name>.md
+```
+
+### Definiting requirements
+
+- `INITIAL.md` should have:
+
+```
+## FEATURE
+Build a user authentication system
+
+## EXAMPLES
+- Authentication flow: `examples/auth-flow.js`
+- Similar API endpoint: `src/api/users.js`
+- Database schema pattern: `src/models/base-model.js`
+- Validation approach: `src/validators/user-validator.js`
+
+## DOCUMENTATION
+- JWT library docs: https://github.com/auth0/node-jsonwebtoken
+- Our API standards: `docs/api-guidelines.md`
+
+## OTHER CONSIDERATIONS
+- Use existing error handling patterns
+- Follow our standard response format
+- Include rate limiting
+```
+
+## To learn
+
+- [] creating mcp servers for claude
+- [] skills
+- [] most important mcp servers
