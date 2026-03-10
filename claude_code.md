@@ -257,8 +257,46 @@ Build a user authentication system
 - Include rate limiting
 ```
 
+## 6. Sub agents
+
+- Specialized AI assistants that operate in separate context windows with focused expertise
+
+```
+.claude/
+  agents/
+  commands/
+```
+
+### Anatomy
+
+It has:
+
+- name
+- description
+- tools
+- model
+
+### Powerful subagents
+
+#### 1. Plan-execute-review
+
+1.  Architect | Plan: scan the codebase, identifies files to change, and writes a `todo.md`
+
+- Uses high-reasoning models
+
+2. Builder | Execute: takes the `todo.md` and writes the code
+
+3. QA/Reviewer | Review: a read-only agent that checks the builder's work against the architect's plan and project linting rules
+
+#### 2. Deep researcher
+
+- [to continue]
+
 ## To learn
 
 - [] creating mcp servers for claude
 - [] skills
+- [] how to create sub agents
+- [] most useful sub agents
 - [] most important mcp servers
+- [] main elements/folders within `.claude/`
