@@ -36,3 +36,18 @@ https://www.youtube.com/watch?v=mZzhfPle9QU
 - It gets prepended to every prompt
 - Bloated eats context window and degrades performance
 - Around 300 lines is good
+
+5. Structure: What, Domain, Validation
+
+- What = tech stack
+- Domain context = what each part does
+- Validation steps = tests, linters, type checkers
+  - it's important to allow the AI to fix itself, meaning the could should "compile" and "run"
+
+## Keyboard shortcuts
+
+- Shift + tab: toggles modes
+  - Normal, auto-accept, and plan mode
+  - Plan mode is where you naturally should be most of the time
+
+-
