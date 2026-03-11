@@ -291,3 +291,50 @@ It has:
 #### 2. Deep researcher
 
 - This subagent can in its own isolated window, summarize findings, and give your main agent a 1-page "briefing note"
+
+#### 3. Security auditor
+
+- Dedicated to finding vulnerabilities
+- Before any commit, this agent runs tools like `semgrep` or `npm audit`, reads the code, and looks for SQL injections or exposed secrets
+
+#### 4. Documentation rebuilder
+
+- Perfect for keeping `READMEs` and API docs in sync
+
+### How to create one
+
+- You can build them through CLI or md files
+
+1. Through CLI
+
+```
+/agents
+```
+
+- Select "create new agent"
+- Describe it
+- Set model and color
+- Assign tools
+
+2. Markdown files
+
+- Create an `md` file on `.claude/agents/reviewer.md`
+
+```
+---
+name: code-reviewer
+description: A specialized agent for code quality and security reviews.
+model: sonnet
+allowed-tools: [ls, read_file, grep]
+---
+# System Prompt
+You are a Senior Security Engineer. Your goal is to review code for:
+1. Logical flaws in authentication.
+2. Performance bottlenecks in loops.
+3. Adherence to our project's `CLAUDE.md` rules.
+
+## Process
+- Read the changed files.
+- provide a "Pass" or "Fail" grade.
+- If Fail, list the specific lines and the fix.
+```
