@@ -290,13 +290,4 @@ It has:
 
 #### 2. Deep researcher
 
-- [to continue]
-
-## To learn
-
-- [] creating mcp servers for claude
-- [] skills
-- [] how to create sub agents
-- [] most useful sub agents
-- [] most important mcp servers
-- [] main elements/folders within `.claude/`
+- This subagent can in its own isolated window, summarize findings, and give your main agent a 1-page "briefing note"
