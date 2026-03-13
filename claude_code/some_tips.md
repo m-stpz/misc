@@ -46,8 +46,90 @@ https://www.youtube.com/watch?v=mZzhfPle9QU
 
 ## Keyboard shortcuts
 
-- Shift + tab: toggles modes
-  - Normal, auto-accept, and plan mode
-  - Plan mode is where you naturally should be most of the time
+6. Shift + tab: toggles modes
 
--
+- Normal, auto-accept, and plan mode
+- Plan mode is where you naturally should be most of the time
+
+7. Escape interrupts
+
+- If the thinking starts to go off-rails, stop it
+
+8. Double escape clears input
+
+## Essential commands
+
+```bash
+@ # file
+/btw # side question
+ctrl + o # verbose output
+/clear
+/context # shows the current context that claude code is using to make assumptions
+/compact
+/model
+/resume # recovers your session
+/mcp # they eat tokens. every tool adds weight. be selective. project-scope over global
+/help
+```
+
+9. Git is your safety net
+
+## `CLAUDE.md` deep dive
+
+10. Add a critical rule section
+
+- Priority of top to bottom
+- Never do this, but always do this
+
+11. Ask claude to update the rules
+12. Use workflow triggers
+13. Commit `CLAUDE.md` to git
+
+- Be mindful of the size of this file
+
+14. Combine skip with allowlists
+
+## Daily workflow
+
+15. Start features in plan mode
+16. Fresh context beats bloated context
+17. Lazy load context.
+
+- Index at root pointing to subdirectory docs. Claude code loads details when needed
+
+18. Read thinking blocks
+
+- Identify "I'm not sure..." , or "I assume.."
+
+## Power use
+
+19. There are 4 composable primitives
+
+- Skills, Commands, MCPs and subagents
+
+20. Skills = recurring workflow
+
+- Templates that load context when triggered
+- Lazy loaded. Don't eat tokens until needed
+
+21. Commands = quick shorthand
+
+22. Don't create commands manually
+
+- Let claude manage the file structure
+
+23. External service docs
+
+- Not just API connections
+- Structured documentation for databases, browsers, systems
+
+24. Subagents = isolated contexts
+
+- Good for parallel work and context management
+- Things that are atomic in nature
+
+25. Avoid instruction overload
+
+- Context is best served fresh and condensed
+
+## Advanced
