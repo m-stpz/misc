@@ -133,3 +133,20 @@ ctrl + o # verbose output
 - Context is best served fresh and condensed
 
 ## Advanced
+
+26. Run multiple instances
+
+- Different terminals, different tasks
+- Not shared context
+
+27. iTerm split panes
+28. Enable notifications
+29. Git worktrees for isolation
+
+- Multiple claude instances, same repo, isolated files
+
+30. Powerful for debugging
+
+## Hooks & Automation
+
+31. Explore the plugin ecosystem
