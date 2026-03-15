@@ -14,10 +14,20 @@ https://www.youtube.com/watch?v=QoQBzR1NIqI
   - We can build this locally for free
 - https://21st.dev/home: Cool components
 
-- Good loop
-  - Set the task
-  - Do the task
-  - Verify its results
+### Google new AI tools
+
+https://shard-vole-c98.notion.site/List-of-Google-s-AI-Coding-Tools-2d27f8611d9f80ec94aec0d786c91346
+
+- Antigrativity: google's IDE
+- Google AI studio: generate prototypes quickly
+- Stitch: UI/design tool
+- Opal: n8n + lovable
+- Jules: experimental coding agent
+- Code wiki: documentation and self-explanaratory codebase
+- Gemini CLI: similar to claude code
+- Gemini canvas: shared visual space to brainstorm, code, and create with gemini models
+- Data science agent that automates data cleaning, analysis, and visual charting
+- Firebase studio: A visual, AI-boosted cockpit for managing backend data and cloud logic
 
 ## `.claude` directory
 
@@ -53,12 +63,13 @@ your-project/.claude/               # Project-level (team-shared in git)
 └── agents/
 ```
 
-1. `CLAUDE.md`: project manifesto
-   1.1 Build/test commands
-   1.2 Style guidelines
-   1.3 Architecture notes
+### 1. `CLAUDE.md`: project manifesto
 
-2. `commands/`: workflow shortcuts
+1.1 Build/test commands
+1.2 Style guidelines
+1.3 Architecture notes
+
+### 2. `commands/`: workflow shortcuts
 
 - Turn repetitive tasks into single slash commands
 
@@ -75,8 +86,64 @@ your-project/.claude/               # Project-level (team-shared in git)
 /onboard # a command for new devs that explains folder structure and setups local environment variables
 ```
 
-3. `agents/`: specialized workforce
+### 3. `agents/`: specialized workforce
 
 - The auditor: finds flaws. can't write, only read
 - The librarian: only has access to `@docs` folder and external mcp tools. Answers "how do I...?"
 - The refactor: used to refactor complex logic
+
+### 4. `rules/`: scoped rules
+
+- Break instructions into focused topic files, instead of one monolithic CLAUDE.md
+- Designed for modular, path-specific, or domain-specific guidelines
+
+```
+.claude/rules/               # Project-level (team-shared in git)
+├── code-style.md
+├── testing.md
+├── security.md
+├── frontend/
+    ├── react.md
+    ├── styles.md
+```
+
+- Idea is to keep main `CLAUDE.md` under 200 lines
+
+#### Core concepts
+
+1. Scoped application: the path matcher
+
+> Note: As of 2026, many teams use a rules.json or YAML-based frontmatter in their rule files to tell Claude: "Apply this rule only when editing files matching `src/components/*.tsx.`"
+
+2. Topic specific modularity
+
+Instead of one massive file, split the concerns so Claude only reads what's relevant to the task at hand. Ex:
+
+- Architectural rules
+- Language-specific rules
+- Infrastructure rules
+
+3. The `@` import system
+
+- We can keep `CLAUDE.md` clean by importing the rules as needed
+
+```md
+# Project's CLAUDE.md
+
+@./.claude/rules/testing.md
+@./.claude/rules/styling.md
+```
+
+#### Common examples
+
+1. `testing-conventions.md`: prevents claude from guessing how to write tests
+   - Rule: use vitest over jest
+   - Rule: mock the db using the `test-db-utils` helper
+   - Rule: Every new feature requires a corresponding integration test in `tests/e2e/`
+
+2. `ui-library-standards`: essential for frontend projects to ensure visual consistency
+   - Rule: use only components from...
+   - Rule: never use arbitrary Tailwind values (e.g, `w-[123px]`); use standard tokens
+   - Rule: components must be exported as named exports, not defaults
+
+3.
