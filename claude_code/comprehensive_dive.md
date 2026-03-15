@@ -2,7 +2,7 @@
 
 https://www.youtube.com/watch?v=QoQBzR1NIqI
 
-## Cool resources
+## 1. Cool resources
 
 - https://godly.website/: Has a bunch of really great websites
   - To take a screenshot of the website, open the dev tools
@@ -13,6 +13,7 @@ https://www.youtube.com/watch?v=QoQBzR1NIqI
 - https://wisprflow.ai/: Allows speech in a correct manner, correcting grammar and punctuation
   - We can build this locally for free
 - https://21st.dev/home: Cool components
+- https://github.com/hesreallyhim/awesome-claude-code: curated list of stuff related with claude
 
 ### Google new AI tools
 
@@ -29,7 +30,9 @@ https://shard-vole-c98.notion.site/List-of-Google-s-AI-Coding-Tools-2d27f8611d9f
 - Data science agent that automates data cleaning, analysis, and visual charting
 - Firebase studio: A visual, AI-boosted cockpit for managing backend data and cloud logic
 
-## `.claude` directory
+## 2. `.claude` directory
+
+- `.claude` has a project-scoped and a global-scope folder
 
 `.claudeignore`: place it in your project root, then claude won't read those paths. Hugely important!
 
@@ -146,4 +149,51 @@ Instead of one massive file, split the concerns so Claude only reads what's rele
    - Rule: never use arbitrary Tailwind values (e.g, `w-[123px]`); use standard tokens
    - Rule: components must be exported as named exports, not defaults
 
-3.
+## 3. Do's and Don'ts
+
+### Do
+
+- Run `/init` first
+- Use bullet points & short headings
+- Put most important guardrails at the top
+- Version-control the root CLAUDE.md
+- Periodically review & prune (treat it like living code)
+- Leverage the prompt/remembrance ratio:
+  - Beginning and end prompt are high-value real-state
+    - Primacy bias
+    - Recency bias
+    - Human-beings are also like this
+  - Middle, not so much
+
+### Don't
+
+- Dump entire style guides / API docs into it
+- @-include huge files unless absolutely necessary
+- Write vague / aspirational rules
+- Make it > 500 lines without splitting
+
+## 4. Memory
+
+- Location: `~/.claude/projects/<project-hash>/memory/MEMORY.md`
+- First 200 lines loaded into system prompt at session start
+- Claude reads and writes during the session
+  - Debugging insights, patterns, preferences
+- Separate from CLAUDE.md, this is claude's own notes, not your instructions
+
+## 5. Prompt structure
+
+- Follows the pattern of layered-memories
+
+```
+=== 1. SYSTEM PROMPT (Fixed) ===
+- Anthropic's "Tengu" instructions (safety, tool usage, conciseness rules)
+- Global rules (~/.claude/CLAUDE.md)
+
+=== 2. CONTEXT INJECTION (Automatic) ===
+- Project-level rules (./CLAUDE.md or ./.claude/CLAUDE.md)
+- Path-specific rules (./.claude/rules/*.md)
+- Auto-Memory (The first ~200 lines of MEMORY.md)
+
+=== 3. USER INTERACTION ===
+└── your prompt (plus @references or piped data)
+```
