@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flow | Effortless Voice Dictation</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Figtree:wght@400;500;600;700&display=swap");
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --cream: #fffdf9;
+        --dark-green: #034f46;
+        --mid-green: #1a7a6e;
+        --light-sand: #e4e4d0;
+        --text-dark: #1a1a1a;
+        --text-muted: #6b6b5b;
+        --border: #d8d8c0;
+      }
+
+      body {
+        font-family: "Figtree", sans-serif;
+        background: var(--cream);
+        color: var(--text-dark);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ── Banner ── */
+      .banner {
+        background: var(--dark-green);
+        color: white;
+        text-align: center;
+        padding: 0.6rem 1rem;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+      .banner a {
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        opacity: 0.85;
+        transition: opacity 0.2s;
+      }
+      .banner a:hover {
+        opacity: 1;
+      }
+
+      /* ── Nav ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--cream);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-inner {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        height: 3.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+      }
+      .nav-logo {
+        font-family: "EB Garamond", serif;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--dark-green);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .nav-logo svg {
+        width: 1.75rem;
+        height: 1.75rem;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        list-style: none;
+      }
+      .nav-links li {
+        position: relative;
+      }
+      .nav-links a,
+      .nav-dropdown-btn {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        padding: 0.4rem 0.75rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        transition: background 0.15s;
+      }
+      .nav-links a:hover,
+      .nav-dropdown-btn:hover {
+        background: var(--light-sand);
+      }
+      .nav-dropdown-btn svg {
+        width: 0.75rem;
+        height: 0.75rem;
+        transition: transform 0.2s;
+      }
+      .nav-links li:hover .nav-dropdown-btn svg {
+        transform: rotate(180deg);
+      }
+      .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        left: 0;
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        padding: 0.5rem;
+        min-width: 14rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition:
+          opacity 0.15s,
+          transform 0.15s;
+      }
+      .nav-links li:hover .dropdown-menu {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateY(0);
+      }
+      .dropdown-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.5rem 0.75rem 0.25rem;
+      }
+      .dropdown-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.625rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        transition: background 0.15s;
+      }
+      .dropdown-item:hover {
+        background: var(--light-sand);
+      }
+      .dropdown-item-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-top: 0.1rem;
+        flex-shrink: 0;
+        color: var(--dark-green);
+      }
+      .dropdown-item-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+      .dropdown-item-desc {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 0.1rem;
+      }
+      .nav-cta {
+        background: var(--dark-green) !important;
+        color: white !important;
+        padding: 0.5rem 1.1rem !important;
+        border-radius: 2rem !important;
+        font-weight: 600 !important;
+        font-size: 0.875rem !important;
+        white-space: nowrap;
+        transition: background 0.2s !important;
+      }
+      .nav-cta:hover {
+        background: var(--mid-green) !important;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .nav-sign-in {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        padding: 0.4rem 0.5rem;
+      }
+      .nav-sign-in:hover {
+        color: var(--text-dark);
+      }
+
+      /* ── Hero ── */
+      .hero {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 5rem 1.5rem 3rem;
+        text-align: center;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--light-sand);
+        border-radius: 2rem;
+        padding: 0.35rem 0.875rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--dark-green);
+        margin-bottom: 1.75rem;
+      }
+      .hero-badge span {
+        width: 0.5rem;
+        height: 0.5rem;
+        background: var(--dark-green);
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .hero h1 {
+        font-family: "EB Garamond", serif;
+        font-size: clamp(2.75rem, 6vw, 5rem);
+        font-weight: 400;
+        line-height: 1.1;
+        color: var(--dark-green);
+        max-width: 18ch;
+        margin: 0 auto 1.25rem;
+      }
+      .hero h1 em {
+        font-style: italic;
+      }
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 36rem;
+        margin: 0 auto 2.25rem;
+        line-height: 1.6;
+      }
+      .hero-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--dark-green);
+        color: white;
+        padding: 0.75rem 1.75rem;
+        border-radius: 2rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+      }
+      .btn-primary:hover {
+        background: var(--mid-green);
+        transform: translateY(-1px);
+      }
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-dark);
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        border: 1px solid var(--border);
+        transition: background 0.2s;
+      }
+      .btn-secondary:hover {
+        background: var(--light-sand);
+      }
+      .hero-note {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 1rem;
+      }
+
+      /* ── Demo video placeholder ── */
+      .hero-demo {
+        max-width: 60rem;
+        margin: 3rem auto 0;
+        border-radius: 1.25rem;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: 0 24px 64px rgba(3, 79, 70, 0.1);
+        background: linear-gradient(
+          135deg,
+          #e8f5f3 0%,
+          #d4ede9 50%,
+          #c8e6e1 100%
+        );
+        aspect-ratio: 16/9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        color: var(--dark-green);
+      }
+      .hero-demo svg {
+        width: 4rem;
+        height: 4rem;
+        opacity: 0.5;
+      }
+      .hero-demo p {
+        font-size: 1rem;
+        opacity: 0.6;
+        font-weight: 500;
+      }
+
+      /* ── Social proof ── */
+      .social-proof {
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: white;
+      }
+      .social-proof p {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+      .logos {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+      }
+      .logo-item {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #bbb;
+        letter-spacing: -0.02em;
+      }
+
+      /* ── Stats ── */
+      .stats {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 5rem 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        text-align: center;
+      }
+      .stat-number {
+        font-family: "EB Garamond", serif;
+        font-size: 3.5rem;
+        font-weight: 400;
+        color: var(--dark-green);
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-top: 0.5rem;
+      }
+
+      /* ── Features ── */
+      .features {
+        background: var(--dark-green);
+        color: white;
+        padding: 5rem 1.5rem;
+      }
+      .features-inner {
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+      .section-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.6;
+        margin-bottom: 1rem;
+      }
+      .section-title {
+        font-family: "EB Garamond", serif;
+        font-size: clamp(2rem, 4vw, 3.25rem);
+        font-weight: 400;
+        line-height: 1.15;
+        max-width: 22ch;
+        margin-bottom: 3.5rem;
+      }
+      .section-title em {
+        font-style: italic;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      .feature-card {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 1.75rem;
+        transition: background 0.2s;
+      }
+      .feature-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .feature-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.625rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+      }
+      .feature-card h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      .feature-card p {
+        font-size: 0.875rem;
+        opacity: 0.65;
+        line-height: 1.6;
+      }
+
+      /* ── Use cases ── */
+      .use-cases {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 5rem 1.5rem;
+      }
+      .use-cases-header {
+        margin-bottom: 3rem;
+      }
+      .use-cases-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      .use-case-card {
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        cursor: pointer;
+      }
+      .use-case-card:hover {
+        border-color: var(--dark-green);
+        box-shadow: 0 4px 16px rgba(3, 79, 70, 0.08);
+      }
+      .use-case-icon {
+        font-size: 1.5rem;
+      }
+      .use-case-card h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--dark-green);
+      }
+      .use-case-card p {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      /* ── Testimonials ── */
+      .testimonials {
+        background: #f5f5ec;
+        padding: 5rem 1.5rem;
+      }
+      .testimonials-inner {
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+        margin-top: 3rem;
+      }
+      .testimonial-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+      }
+      .stars {
+        color: #f59e0b;
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+      }
+      .testimonial-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+      }
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+      }
+      .author-avatar {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: var(--light-sand);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--dark-green);
+        flex-shrink: 0;
+      }
+      .author-name {
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .author-role {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
+      /* ── CTA ── */
+      .cta-section {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 6rem 1.5rem;
+        text-align: center;
+      }
+      .cta-section h2 {
+        font-family: "EB Garamond", serif;
+        font-size: clamp(2.25rem, 5vw, 4rem);
+        font-weight: 400;
+        color: var(--dark-green);
+        margin-bottom: 1rem;
+      }
+      .cta-section h2 em {
+        font-style: italic;
+      }
+      .cta-section p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+      }
+
+      /* ── Footer ── */
+      footer {
+        background: var(--dark-green);
+        color: white;
+        padding: 3rem 1.5rem 2rem;
+      }
+      .footer-inner {
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+      .footer-top {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 3rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 2rem;
+      }
+      .footer-brand {
+        font-family: "EB Garamond", serif;
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .footer-tagline {
+        font-size: 0.875rem;
+        opacity: 0.65;
+        line-height: 1.6;
+      }
+      .footer-col h4 {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.5;
+        margin-bottom: 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+      }
+      .footer-col a {
+        font-size: 0.875rem;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+      }
+      .footer-col a:hover {
+        opacity: 1;
+      }
+      .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .footer-bottom p {
+        font-size: 0.8rem;
+        opacity: 0.5;
+      }
+      .footer-socials {
+        display: flex;
+        gap: 0.75rem;
+      }
+      .footer-socials a {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.375rem;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        transition: background 0.2s;
+      }
+      .footer-socials a:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 767px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+        .use-cases-grid {
+          grid-template-columns: 1fr;
+        }
+        .testimonials-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-top {
+          grid-template-columns: 1fr 1fr;
+        }
+        .nav-links {
+          display: none;
+        }
+      }
+      @media (max-width: 991px) {
+        .features-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .use-cases-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .testimonials-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Banner -->
+    <div class="banner">
+      <span
+        ><strong>Now live on Android</strong> — free &amp; unlimited during
+        launch</span
+      >
+      <a href="#">Download now →</a>
+    </div>
+
+    <!-- Nav -->
+    <nav>
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <svg
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="16" cy="16" r="14" fill="#034f46" />
+            <path
+              d="M10 16 C10 12, 22 12, 22 16 C22 20, 10 20, 10 16 Z"
+              fill="white"
+              opacity="0.3"
+            />
+            <circle cx="16" cy="16" r="4" fill="white" />
+          </svg>
+          Flow
+        </a>
+
+        <ul class="nav-links">
+          <li>
+            <button class="nav-dropdown-btn">
+              Product
+              <svg viewBox="0 0 12 12" fill="none">
+                <path
+                  d="M2 4l4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <div class="dropdown-label">Get Started</div>
+              <a href="#" class="dropdown-item">
+                <svg class="dropdown-item-icon" viewBox="0 0 20 20" fill="none">
+                  <rect
+                    x="3"
+                    y="3"
+                    width="14"
+                    height="14"
+                    rx="3"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M7 10h6M10 7v6"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <div>
+                  <div class="dropdown-item-title">Features</div>
+                  <div class="dropdown-item-desc">Do more with your voice</div>
+                </div>
+              </a>
+              <a href="#" class="dropdown-item">
+                <svg class="dropdown-item-icon" viewBox="0 0 20 20" fill="none">
+                  <circle
+                    cx="10"
+                    cy="10"
+                    r="7"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M10 7v3l2 2"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <div>
+                  <div class="dropdown-item-title">Pricing</div>
+                  <div class="dropdown-item-desc">
+                    Flow Pro free for 14 days
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="dropdown-item">
+                <svg class="dropdown-item-icon" viewBox="0 0 20 20" fill="none">
+                  <rect
+                    x="4"
+                    y="3"
+                    width="12"
+                    height="14"
+                    rx="2"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M7 7h6M7 11h4"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <div>
+                  <div class="dropdown-item-title">Privacy &amp; Security</div>
+                  <div class="dropdown-item-desc">Your data, your control</div>
+                </div>
+              </a>
+              <a href="#" class="dropdown-item">
+                <svg class="dropdown-item-icon" viewBox="0 0 20 20" fill="none">
+                  <rect
+                    x="2"
+                    y="4"
+                    width="16"
+                    height="12"
+                    rx="2"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M8 8l4 2-4 2V8z"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <div>
+                  <div class="dropdown-item-title">Web Demo</div>
+                  <div class="dropdown-item-desc">Try Flow on browser</div>
+                </div>
+              </a>
+            </div>
+          </li>
+          <li>
+            <button class="nav-dropdown-btn">
+              Individuals
+              <svg viewBox="0 0 12 12" fill="none">
+                <path
+                  d="M2 4l4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <div class="dropdown-label">Flow For</div>
+              <a href="#" class="dropdown-item">
+                <svg class="dropdown-item-icon" viewBox="0 0 20 20" fill="none">
+                  <circle
+                    cx="10"
+                    cy="7"
+                    r="3"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M4 17c0-3.314 2.686-6 6-6s6 2.686 6 6"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <div>
+                  <div class="dropdown-item-title">Leaders</div>
+                  <div class="dropdown-item-desc">
+                    Unblock teams, build faster
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="dropdown-item">
+                <svg class="dropdown-item-icon" viewBox="0 0 20 20" fill="none">
+                  <rect
+                    x="3"
+                    y="3"
+                    width="14"
+                    height="14"
+                    rx="2"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M7 8h2l3 4"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <div>
+                  <div class="dropdown-item-title">Developers</div>
+                  <div class="dropdown-item-desc">
+                    Speak more context, get better results
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="dropdown-item">
+                <svg class="dropdown-item-icon" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M4 6h12M4 10h8M4 14h10"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <div>
+                  <div class="dropdown-item-title">Creators</div>
+                  <div class="dropdown-item-desc">
+                    Capture content ideas anytime
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="dropdown-item">
+                <svg class="dropdown-item-icon" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M4 4h12v8H4z"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M8 16h4M10 12v4"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <div>
+                  <div class="dropdown-item-title">Students</div>
+                  <div class="dropdown-item-desc">
+                    Write faster, study smarter
+                  </div>
+                </div>
+              </a>
+            </div>
+          </li>
+          <li><a href="#">Enterprise</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+
+        <div class="nav-right">
+          <a href="#" class="nav-sign-in">Sign in</a>
+          <a href="#" class="btn-primary nav-cta">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M10 3v11M5 9l5 5 5-5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Download for macOS
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span></span>
+        3M+ users worldwide
+      </div>
+      <h1>The <em>fastest</em> way to type with your voice</h1>
+      <p>
+        Flow makes writing quick and clear with seamless voice dictation. Works
+        everywhere on your Mac, Windows, iPhone, and Android.
+      </p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M10 3v11M5 9l5 5 5-5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Download for macOS
+        </a>
+        <a href="#" class="btn-secondary"> Watch demo → </a>
+      </div>
+      <p class="hero-note">
+        Free 14-day trial · No credit card required · SOC 2 Type II certified
+      </p>
+
+      <div class="hero-demo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 2C10.3431 2 9 3.34315 9 5V12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12V5C15 3.34315 13.6569 2 12 2Z"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M5 10C5 14.4183 8.13401 18 12 18C15.866 18 19 14.4183 19 10"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M12 18V22M9 22H15"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <p>Voice dictation demo</p>
+      </div>
+    </section>
+
+    <!-- Social Proof -->
+    <div class="social-proof">
+      <p>Trusted by teams at</p>
+      <div class="logos">
+        <div class="logo-item">Google</div>
+        <div class="logo-item">Apple</div>
+        <div class="logo-item">Stripe</div>
+        <div class="logo-item">OpenAI</div>
+        <div class="logo-item">Notion</div>
+        <div class="logo-item">Figma</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div>
+        <div class="stat-number">3M+</div>
+        <div class="stat-label">Users worldwide</div>
+      </div>
+      <div>
+        <div class="stat-number">5×</div>
+        <div class="stat-label">Faster than typing</div>
+      </div>
+      <div>
+        <div class="stat-number">99%</div>
+        <div class="stat-label">Accuracy rate</div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+      <div class="features-inner">
+        <div class="section-label">Why Flow</div>
+        <h2 class="section-title">
+          Everything you need to <em>write with your voice</em>
+        </h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎙️</div>
+            <h3>Ultra-accurate transcription</h3>
+            <p>
+              Powered by cutting-edge AI with 99% accuracy. Handles accents,
+              technical jargon, and natural speech.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Works everywhere</h3>
+            <p>
+              Dictate in any app — emails, docs, Slack, code editors. Flow works
+              in every text field on your device.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🧠</div>
+            <h3>AI-powered formatting</h3>
+            <p>
+              Flow understands context and automatically formats your text, adds
+              punctuation, and cleans up filler words.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Privacy first</h3>
+            <p>
+              SOC 2 Type II certified. Your audio is processed securely and
+              never stored or sold to third parties.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3>50+ languages</h3>
+            <p>
+              Dictate in your native language. Flow supports over 50 languages
+              with the same high accuracy.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔗</div>
+            <h3>Deep integrations</h3>
+            <p>
+              Connect with your favorite tools. Works seamlessly with Notion,
+              Gmail, VS Code, and thousands more.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases">
+      <div class="use-cases-header">
+        <div class="section-label" style="color: var(--text-muted)">
+          Use Cases
+        </div>
+        <h2 class="section-title" style="color: var(--dark-green)">
+          Built for how <em>you</em> work
+        </h2>
+      </div>
+      <div class="use-cases-grid">
+        <a href="#" class="use-case-card">
+          <div class="use-case-icon">👨‍💻</div>
+          <h3>Developers</h3>
+          <p>
+            Describe what you want to build in natural language. Get better AI
+            completions with more context.
+          </p>
+        </a>
+        <a href="#" class="use-case-card">
+          <div class="use-case-icon">📝</div>
+          <h3>Writers &amp; Creators</h3>
+          <p>
+            Never lose an idea. Capture thoughts the moment they strike and turn
+            them into polished content.
+          </p>
+        </a>
+        <a href="#" class="use-case-card">
+          <div class="use-case-icon">⚖️</div>
+          <h3>Lawyers</h3>
+          <p>
+            Dictate case notes, memos, and briefs on the go. Spend less time
+            typing, more time on what matters.
+          </p>
+        </a>
+        <a href="#" class="use-case-card">
+          <div class="use-case-icon">🎓</div>
+          <h3>Students</h3>
+          <p>
+            Take notes faster than ever. Transcribe lectures, write essays, and
+            study more efficiently.
+          </p>
+        </a>
+        <a href="#" class="use-case-card">
+          <div class="use-case-icon">🤝</div>
+          <h3>Customer Support</h3>
+          <p>
+            Resolve tickets 4× faster with voice. Respond to customers without
+            slowing down.
+          </p>
+        </a>
+        <a href="#" class="use-case-card">
+          <div class="use-case-icon">👔</div>
+          <h3>Leaders</h3>
+          <p>
+            Communicate clearly and quickly. Unblock your team with voice
+            messages and fast updates.
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="testimonials-inner">
+        <div class="section-label" style="color: var(--text-muted)">
+          Testimonials
+        </div>
+        <h2 class="section-title" style="color: var(--dark-green)">
+          Loved by <em>millions</em>
+        </h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              "Flow has completely changed how I work. I can write emails 5×
+              faster and my hands never get tired. It's indispensable."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">SR</div>
+              <div>
+                <div class="author-name">Sarah R.</div>
+                <div class="author-role">Software Engineer at Google</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              "The accuracy is unreal. I use it for every single thing I type
+              now — Slack, emails, code comments. Game changer."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">MK</div>
+              <div>
+                <div class="author-name">Michael K.</div>
+                <div class="author-role">Founder & CEO</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">
+              "As a lawyer I dictate notes all day. Flow is the first tool
+              that's fast enough, accurate enough, and private enough for my
+              work."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">JP</div>
+              <div>
+                <div class="author-name">Jessica P.</div>
+                <div class="author-role">Partner at Morrison & Foerster</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <h2>Start writing with your <em>voice</em> today</h2>
+      <p>Free 14-day trial. No credit card required.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M10 3v11M5 9l5 5 5-5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Download for macOS
+        </a>
+        <a href="#" class="btn-secondary">View pricing</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-top">
+          <div>
+            <div class="footer-brand">Flow</div>
+            <p class="footer-tagline">
+              The fastest, smartest way to type with your voice. Used by 3M+
+              people worldwide.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="#">Features</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">Web Demo</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Use Cases</h4>
+            <ul>
+              <li><a href="#">Developers</a></li>
+              <li><a href="#">Leaders</a></li>
+              <li><a href="#">Students</a></li>
+              <li><a href="#">Lawyers</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Wispr, Inc. All rights reserved.</p>
+          <div class="footer-socials">
+            <a href="#">𝕏</a>
+            <a href="#">in</a>
+            <a href="#">▶</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
