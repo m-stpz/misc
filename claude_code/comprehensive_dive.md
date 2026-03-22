@@ -197,3 +197,58 @@ Instead of one massive file, split the concerns so Claude only reads what's rele
 === 3. USER INTERACTION ===
 └── your prompt (plus @references or piped data)
 ```
+
+## 6. Context-management
+
+- Basically, handling tokens in a prompt as effectively as possible
+- To check your context:
+
+```bash
+/context
+```
+
+- Output
+
+```txt
+Context Usage
+Model: claude-sonnet-4-6
+
+Tokens: 15.2k / 200k (8%)
+
+Estimated usage by category
+Category	Tokens	Percentage
+System prompt	6.3k	3.1%
+System tools	8.5k	4.2%
+System tools (deferred)	9.7k	4.9%
+Skills	410	0.2%
+Messages	8	0.0%
+Free space	151.8k	75.9%
+Autocompact buffer	33k	16.5%
+Skills
+Skill	Source	Tokens
+update-config	undefined	173
+keybindings-help	undefined	61
+simplify	undefined	23
+loop	undefined	77
+claude-api	undefined	76
+```
+
+### Understanding this output
+
+- System prompt: CLAUDE.md + rules
+- Sytems tools: bash, websocket, create-plan
+- MCP Tools: tools that we've added
+- Memory files: MEMORY.md
+- Skills
+- Messages: the prompts we added
+- Aim to keep CLAUDE.md under ~500 lines by including only essentials
+
+### Work efficiently on complex tasks
+
+- Use plan mode
+- Course-correct early
+  - Press escape to stop immediately
+  - `/rewind` or double-tap Escape to restore conversation and code to previous checkpoint
+- Give verification targets
+  - Test cases, screenshots or define expected output
+- Test incrementally
