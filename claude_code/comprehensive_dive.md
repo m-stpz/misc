@@ -252,3 +252,18 @@ claude-api	undefined	76
 - Give verification targets
   - Test cases, screenshots or define expected output
 - Test incrementally
+
+## 7. Skills
+
+- You can add them to `/.claude/skills/<skill>`
+- Within the skill, you can add a script
+
+```
+/claude/skills/
+|- skill/
+|--- script => this is useful to create python/bash scripts
+|--- SKILL.md // orchestrator
+```
+
+- Take whatever goes to that specific task, identify the steps, and organize it into scripts
+- The SKILL.md orchestrates this effort
